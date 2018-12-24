@@ -8,20 +8,19 @@ import NewCardForm from './NewCardForm';
 // import CARD_DATA from '../data/card-data.json';
 
 class Board extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       cards: []
     };
-  }
 
+    this.mainBoard = props.boardName;
+  }
+  //displays list of cards
   makeCards(){
 
-    if (this.state.cards.length > 0) {
-      console.log(this.state.cards)
-
-      return this.state.cards.map((card, index) => {
+    return this.state.cards.map((card, index) => {
         return <Card
           key={index}
           cardText={card.cardText}
@@ -30,11 +29,15 @@ class Board extends Component {
           deleteCardCallback= {this.deleteCard}
           />
       })
-    };
   }
 
-
+  //componentDidMount is executed after the first render
+  //retrieve card data from my board from api
+  //url=https://inspiration-board.herokuapp.com/boards/shelan/cards
   componentDidMount(){
+
+    // Make a check to see if my board exists.. if not create board
+
     axios.get(this.props.url + this.props.boardName +'/cards')
     .then((response) => {
       console.log(response)
@@ -54,7 +57,7 @@ class Board extends Component {
     })
     .catch((error) => {
       console.log(error.message);
-      console.log("this is the catch")
+      console.log("ERROR")
       this.setState({
         errorMessage: error.message,
       });
@@ -70,8 +73,8 @@ class Board extends Component {
       emoji: newCard.cardEmoji,
     };
     console.log(apiPayload)
-
-    axios.post(this.props.url + this.props.boardName +'/cards', apiPayload)
+    const {url,boardName} = this.props;
+    axios.post(url + boardName +'/cards', apiPayload)
     .then( (response) => {
 
       const {card} = response.data;
@@ -130,10 +133,9 @@ class Board extends Component {
 
 }
 
-
 Board.propTypes = {
   cards: PropTypes.array,
-
+// AdaGold/inspiration-board-api git hub page shows you how to use the api
 };
 
 export default Board;
