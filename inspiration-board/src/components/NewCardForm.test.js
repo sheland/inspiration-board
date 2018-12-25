@@ -1,6 +1,6 @@
 // src/components/test/NewPetForm.test.js
 import React from 'react';
-import NewCardForm from '../NewCardForm';
+import NewCardForm from './NewCardForm';
 import { shallow } from 'enzyme';
 
 describe('NewCardForm', () => {
