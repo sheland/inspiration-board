@@ -135,7 +135,6 @@ class Board extends Component {
 
 Board.propTypes = {
   cards: PropTypes.array,
-// AdaGold/inspiration-board-api git hub page shows you how to use the api
 };
 
 export default Board;
